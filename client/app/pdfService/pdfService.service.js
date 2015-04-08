@@ -35,43 +35,18 @@ angular.module('wechatGalleryClientApp')
         doc.addImage(imgData.data, 'JPEG', 0, 0, a4Width, a4Height );
         doc.addPage();
       });
-      //switch (img) {
-      //  case 1:
-      //
-      //    break;
-      //  case 2:
-      //
-      //    break;
-      //  case 3:
-      //
-      //    break;
-      //  case 4:
-      //
-      //    break;
-      //  case 5:
-      //
-      //    break;
-      //  case 6:
-      //
-      //    break;
-      //  case 7:
-      //
-      //    break;
-      //  case 8:
-      //
-      //    break;
-      //  case 9:
-      //
-      //    break;
-      //}
-      //doc.setFontSize(40);
-      //doc.setDrawColor(0);
-      //doc.setFillColor(238, 238, 238);
-      //doc.rect(0, 0, 595.28,  841.89, 'F');
-      //doc.text(35, 100, "Paranyan loves jsPDF");
+      return doc;
+    };
 
-      //doc.save( 'a.pdf')
+    this.makePdfFrom4Images = function (doc, images) {
 
+      doc.addImage(images[0].data, 'JPEG', 0, 0, a4Width/2, a4Height/2 );
+      doc.addImage(images[1].data, 'JPEG', a4Width/2, 0, a4Width/2, a4Height/2 );
+      doc.addImage(images[2].data, 'JPEG', 0, a4Height/2, a4Width/2, a4Height/2 );
+      doc.addImage(images[3].data, 'JPEG', a4Width/2, a4Height/2, a4Width/2, a4Height/2 );
+      doc.line(0, a4Height/2, a4Width, a4Height/2);
+      doc.line(a4Width/2, 0, a4Width/2, a4Height);
+      doc.addPage();
       return doc;
     }
   }

@@ -57,7 +57,7 @@ Note.prototype.extractTitleAndImg = function () {
           var batch = image.batch();
           console.log('width : ' + image.width() + ' height : ' + image.height());
 
-          if (image.height() > image.width()) {
+          if (image.height() > image.width() + 20) {
             batch = batch.rotate(90);
             var newWidth = image.height();
             var newHeight = image.width();
@@ -89,7 +89,6 @@ Note.prototype.extractTitleAndImg = function () {
             self.imagesData.push(imgData);
             cb();
           });
-
         })
       }, function (err) {
         if (err) {
