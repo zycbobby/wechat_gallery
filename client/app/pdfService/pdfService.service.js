@@ -44,9 +44,37 @@ angular.module('wechatGalleryClientApp')
       doc.addImage(images[1].data, 'JPEG', a4Width/2, 0, a4Width/2, a4Height/2 );
       doc.addImage(images[2].data, 'JPEG', 0, a4Height/2, a4Width/2, a4Height/2 );
       doc.addImage(images[3].data, 'JPEG', a4Width/2, a4Height/2, a4Width/2, a4Height/2 );
+
+
       doc.line(0, a4Height/2, a4Width, a4Height/2);
       doc.line(a4Width/2, 0, a4Width/2, a4Height);
+
       doc.addPage();
+
+      var fontHeight = 4;
+      var dateLength = 50;
+
+
+      doc.setFont("courier");
+      doc.setFontType("bold");
+      doc.setTextColor(100);
+
+      var date0 = new Date(images[0].date);
+      doc.text( 5 + a4Width/2 , 5, date0.getFullYear() + '-' + (date0.getMonth()+1) + '-' + date0.getDate());
+      // doc.text( 5 + a4Width/2 , 5 + fontHeight, images[0].text);
+
+      var date1 = new Date(images[1].date);
+      doc.text( 5, 5, date1.getFullYear() + '-' + (date1.getMonth() + 1) + '-' + date1.getDate());
+      // doc.text( 5 , 5 + fontHeight, images[1].text);
+
+      var date2 = new Date(images[2].date);
+      doc.text( a4Width/2 + 5 , a4Height/2 + 5, date2.getFullYear() + '-' + (date2.getMonth() + 1) + '-' + date2.getDate());
+      // doc.text( a4Width/2 + 5 , a4Height/2 + 5 + fontHeight, images[2].text);
+
+      var date3 = new Date(images[3].date);
+      doc.text( 5, a4Height/2 + 5, date3.getFullYear() + '-' + (date3.getMonth() + 1) + '-' + date3.getDate());
+      // doc.text( 5, a4Height/2 + 5 + fontHeight, images[3].text);
+
       return doc;
     }
   }

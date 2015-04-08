@@ -12,7 +12,9 @@ function loadNotes(csvPath) {
   csv
     .fromPath(csvPath)
     .on("data", function(data){
-      notes.push(new Note(data[0], data[1]));
+      var note = new Note(data[0], data[1]);
+      note.extractZip();
+      notes.push(note);
     })
     .on("end", function(){
       defer.resolve(notes);
