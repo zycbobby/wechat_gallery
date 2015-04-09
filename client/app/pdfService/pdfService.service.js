@@ -55,13 +55,13 @@ angular.module('wechatGalleryClientApp')
       var dateLength = 50;
 
 
-      doc.setFont("courier");
-      doc.setFontType("bold");
+      //doc.setFont("courier");
+      //doc.setFontType("bold");
       doc.setTextColor(100);
 
       var date0 = new Date(images[0].date);
       doc.text( 5 + a4Width/2 , 5, date0.getFullYear() + '-' + (date0.getMonth()+1) + '-' + date0.getDate());
-      // doc.text( 5 + a4Width/2 , 5 + fontHeight, images[0].text);
+      //doc.text( 5 + a4Width/2 , 5 + fontHeight, images[0].text);
 
       var date1 = new Date(images[1].date);
       doc.text( 5, 5, date1.getFullYear() + '-' + (date1.getMonth() + 1) + '-' + date1.getDate());
