@@ -4,8 +4,6 @@ angular.module('wechatGalleryClientApp')
   .controller('MainCtrl', function ($scope, $http, pdfService) {
     $scope.awesomeThings = [];
 
-
-
     $http.get('/api/notes').success(function(notes) {
       // pdfService.makePdf(null);
       $scope.notes = notes;
@@ -44,10 +42,45 @@ angular.module('wechatGalleryClientApp')
     };
 
     $scope.downloadPdf = function(note) {
+
+      var a4Width = 297;
+      var a4Height = 210;
+
+
+
+      $scope.pdfMake.fonts = {
+        song : {
+          normal: '',
+          bold: '/assets/font/zy.ttf',
+          italics: '/assets/font/zy.ttf',
+          bolditalics: '/assets/font/zy.ttf'
+        }
+      };
+
+      var docDefinition = {
+        pageSize: 'A4',
+        // by default we use portrait, you can change it to landscape if you wish
+        pageOrientation: 'landscape',
+        content: [],
+        pageMargins: [ 0,0,0,0 ],
+        defaultStyle : {
+          font : 'song'
+        }
+      };
+
+
       $http.get('/api/notes/' + note.fileDescriptor).success(function (fNote) {
-        var doc = new $scope.jsPDF('landscape');
-        pdfService.makePdf(doc, fNote);
-        doc.save(note.fileDescriptor + '.pdf');
+
+        fNote.imagesData.forEach(function(imgData) {
+          docDefinition.content.push({
+            image: imgData.data,
+            width: 400
+          });
+          docDefinition.content.push({
+            text : fNote.text
+          });
+        });
+        $scope.pdfMake.createPdf(docDefinition).download();
       });
-    }
+    };
   });
