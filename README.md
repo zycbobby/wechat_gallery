@@ -15,3 +15,6 @@ Using custom font like [Using Custom Font](https://github.com/bpampuch/pdfmake/w
 
 But it seems quite hard to make it work...
 
+# Experience
+
+I think nodejs is obviously not suitable for some download work. It really make the page slow and cannot accept new connections.
