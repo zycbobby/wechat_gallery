@@ -48,24 +48,21 @@ angular.module('wechatGalleryClientApp')
 
 
 
-      $scope.pdfMake.fonts = {
-        song : {
-          normal: '',
-          bold: '/assets/font/zy.ttf',
-          italics: '/assets/font/zy.ttf',
-          bolditalics: '/assets/font/zy.ttf'
-        }
-      };
+      //$scope.pdfMake.fonts = {
+      //  song : {
+      //    normal: '',
+      //    bold: '/assets/font/zy.ttf',
+      //    italics: '/assets/font/zy.ttf',
+      //    bolditalics: '/assets/font/zy.ttf'
+      //  }
+      //};
 
       var docDefinition = {
         pageSize: 'A4',
         // by default we use portrait, you can change it to landscape if you wish
         pageOrientation: 'landscape',
         content: [],
-        pageMargins: [ 0,0,0,0 ],
-        defaultStyle : {
-          font : 'song'
-        }
+        pageMargins: [ 0,0,0,0 ]
       };
 
 
