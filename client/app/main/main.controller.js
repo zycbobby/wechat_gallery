@@ -48,21 +48,24 @@ angular.module('wechatGalleryClientApp')
 
 
 
-      //$scope.pdfMake.fonts = {
-      //  song : {
-      //    normal: '',
-      //    bold: '/assets/font/zy.ttf',
-      //    italics: '/assets/font/zy.ttf',
-      //    bolditalics: '/assets/font/zy.ttf'
-      //  }
-      //};
+      $scope.pdfMake.fonts = {
+        song : {
+          normal: 'Ubuntu-Regular.ttf',
+          bold: 'Ubuntu-Regular.ttf',
+          italics: 'Ubuntu-Regular.ttf',
+          bolditalics: 'Ubuntu-Regular.ttf'
+        }
+      };
 
       var docDefinition = {
         pageSize: 'A4',
         // by default we use portrait, you can change it to landscape if you wish
         pageOrientation: 'landscape',
         content: [],
-        pageMargins: [ 0,0,0,0 ]
+        pageMargins: [ 0,0,0,0 ],
+        defaultStyle: {
+          font: 'song'
+        }
       };
 
 
@@ -73,9 +76,12 @@ angular.module('wechatGalleryClientApp')
             image: imgData.data,
             width: 400
           });
-          docDefinition.content.push({
-            text : fNote.text
-          });
+          //docDefinition.content.push({
+          //   // text : fNote.text
+          //  text : 'abc'
+          //});
+          docDefinition.content.push('中文');
+
         });
         $scope.pdfMake.createPdf(docDefinition).download();
       });
