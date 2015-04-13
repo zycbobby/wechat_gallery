@@ -16,4 +16,6 @@ angular.module('wechatGalleryClientApp', [
   .run(function($rootScope, $window) {
     $rootScope.async = $window.async;
     $rootScope.pdfMake = $window.pdfMake;
+
+    $rootScope.jsPDF = $window.jsPDF;
   });

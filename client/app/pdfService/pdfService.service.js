@@ -38,13 +38,63 @@ angular.module('wechatGalleryClientApp')
       return doc;
     };
 
+    this.makePdfFromAllImages = function (doc, images) {
+      var recent4= [];
+
+      images.forEach(function(image, idx ){
+        doc.addImage(image.data, 'JPEG', idx%2===1?a4Width/2:0,  idx%4 > 1?a4Height/2:0, a4Width/2, a4Height/2 );
+        recent4.push(image);
+
+        if (idx%4 === 3 || idx === images.length - 1) {
+          doc.line(0, a4Height/2, a4Width, a4Height/2);
+          doc.line(a4Width/2, 0, a4Width/2, a4Height);
+          doc.addPage();
+
+          if (recent4.length > 0) {
+            var date0 = new Date(recent4[0].date);
+            doc.text(5 + a4Width / 2, 10, date0.getFullYear() + '-' + (date0.getMonth() + 1) + '-' + date0.getDate());
+          }
+          if (recent4.length > 1) {
+            var date1 = new Date(recent4[1].date);
+            doc.text( 5, 10, date1.getFullYear() + '-' + (date1.getMonth() + 1) + '-' + date1.getDate());
+          }
+          if (recent4.length > 2) {
+            var date2 = new Date(recent4[2].date);
+            doc.text( a4Width/2 + 5 , a4Height/2 + 10, date2.getFullYear() + '-' + (date2.getMonth() + 1) + '-' + date2.getDate());
+          }
+
+          if (recent4.length > 3) {
+            var date3 = new Date(recent4[3].date);
+            doc.text( 5, a4Height/2 + 10, date3.getFullYear() + '-' + (date3.getMonth() + 1) + '-' + date3.getDate());
+          }
+
+          doc.line(0, a4Height/2, a4Width, a4Height/2);
+          doc.line(a4Width/2, 0, a4Width/2, a4Height);
+
+          recent4 = [];
+          if (idx !== images.length - 1) {
+            doc.addPage();
+          }
+        }
+      });
+
+      return doc;
+    };
+
     this.makePdfFrom4Images = function (doc, images) {
 
       doc.addImage(images[0].data, 'JPEG', 0, 0, a4Width/2, a4Height/2 );
-      doc.addImage(images[1].data, 'JPEG', a4Width/2, 0, a4Width/2, a4Height/2 );
-      doc.addImage(images[2].data, 'JPEG', 0, a4Height/2, a4Width/2, a4Height/2 );
-      doc.addImage(images[3].data, 'JPEG', a4Width/2, a4Height/2, a4Width/2, a4Height/2 );
+      if (images.length > 1 ) {
+        doc.addImage(images[1].data, 'JPEG', a4Width/2, 0, a4Width/2, a4Height/2 );
+      }
 
+      if (images.length > 2 ) {
+        doc.addImage(images[2].data, 'JPEG', 0, a4Height/2, a4Width/2, a4Height/2 );
+      }
+
+      if (images.length > 3 ) {
+        doc.addImage(images[3].data, 'JPEG', a4Width/2, a4Height/2, a4Width/2, a4Height/2 );
+      }
 
       doc.line(0, a4Height/2, a4Width, a4Height/2);
       doc.line(a4Width/2, 0, a4Width/2, a4Height);

@@ -12,9 +12,10 @@ angular.module('wechatGalleryClientApp')
     $scope.downloadAll = function() {
       var images = [];
       var count = 0;
+      var doc = new $scope.jsPDF('landscape');
 
       $scope.async.each($scope.notes, function(note, cb) {
-        var doc = new $scope.jsPDF('landscape');
+
         $http.get('/api/notes/' + note.fileDescriptor).success(function(fNote) {
           fNote.imagesData.forEach(function(imageData) {
             images.push({
@@ -23,18 +24,14 @@ angular.module('wechatGalleryClientApp')
               date : fNote.date,
               text: fNote.text
             });
-            if (images.length === 4) {
-              pdfService.makePdfFrom4Images(doc, images);
-              doc.save(count + '.pdf');
-              count++;
-              images = [];
-              doc = new $scope.jsPDF('landscape');
-            }
           });
-
           cb();
         })
       }, function(err) {
+
+        // need one more time for the last one
+        pdfService.makePdfFromAllImages(doc, images);
+        doc.save('test.pdf');
         if (err) {
           console.log(err);
         }
@@ -61,7 +58,10 @@ angular.module('wechatGalleryClientApp')
         pageSize: 'A4',
         // by default we use portrait, you can change it to landscape if you wish
         pageOrientation: 'landscape',
-        content: [],
+        content: [{
+          columns : [],
+          columnGap: 0
+        }],
         pageMargins: [ 0,0,0,0 ],
         defaultStyle: {
           font: 'song'
@@ -72,15 +72,14 @@ angular.module('wechatGalleryClientApp')
       $http.get('/api/notes/' + note.fileDescriptor).success(function (fNote) {
 
         fNote.imagesData.forEach(function(imgData) {
-          docDefinition.content.push({
-            image: imgData.data,
-            width: 400
-          });
-          docDefinition.content.push({
+          docDefinition.content[0].columns.push({
             text : fNote.text,
-            fontSize : 15
-
+            width : '*'
           });
+          //docDefinition.content.push({
+          //  text : fNote.text,
+          //  fontSize : 15
+          //});
         });
         $scope.pdfMake.createPdf(docDefinition).download();
       });
