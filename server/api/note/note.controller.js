@@ -5,18 +5,20 @@ var Note = require('./note.model');
 var config = require('../../config/environment');
 var q = require('q');
 var csv = require('fast-csv');
+var fs = require('fs');
+
 
 function loadNotes(csvPath) {
   var defer = q.defer();
   var notes = [];
   csv
     .fromPath(csvPath)
-    .on("data", function(data){
+    .on("data", function (data) {
       var note = new Note(data[0], data[1]);
       note.extractZip();
       notes.push(note);
     })
-    .on("end", function(){
+    .on("end", function () {
       defer.resolve(notes);
     });
 
@@ -26,21 +28,21 @@ function loadNotes(csvPath) {
 var cachedNotes = undefined;
 var notes = [];
 
-loadNotes(config.csv).then(function(ns) {
+loadNotes(config.csv).then(function (ns) {
   if (!cachedNotes) {
     cachedNotes = {};
-    ns.forEach(function(note) {
+    ns.forEach(function (note) {
       cachedNotes[note.fileDescriptor] = note;
     });
   }
   notes = ns;
 });
 // Get list of notes
-exports.index = function(req, res) {
-  loadNotes(config.csv).then(function(ns) {
+exports.index = function (req, res) {
+  loadNotes(config.csv).then(function (ns) {
     if (!cachedNotes) {
       cachedNotes = {};
-      ns.forEach(function(note) {
+      ns.forEach(function (note) {
         cachedNotes[note.fileDescriptor] = note;
       });
     }
@@ -50,15 +52,15 @@ exports.index = function(req, res) {
 };
 
 // Get a single thing
-exports.show = function(req, res) {
+exports.show = function (req, res) {
   if (!cachedNotes) {
     cachedNotes = {};
-    notes.forEach(function(note) {
+    notes.forEach(function (note) {
       cachedNotes[note.fileDescriptor] = note;
     });
   }
   var note = cachedNotes[req.params.id];
-  note.extractTitleAndImg().then(function(fNote) {
+  note.extractTitleAndImg().then(function (fNote) {
     return res.json(200, fNote);
   })
 };

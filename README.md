@@ -33,3 +33,7 @@ I think nodejs is obviously not suitable for some download work. It really make 
 
 # Problem I solved
 1. Using javascript to manipulate image is ... a bad solution... it is CPU sensitive
+
+# How to make pdf from raw text
+
+I recommend use LibreOffice Writer's function. It is convenient.

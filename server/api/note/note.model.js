@@ -41,7 +41,18 @@ Note.prototype.extractTitleAndImg = function () {
     try {
       var $ = cheerio.load(data);
 
-      self.text = $('div > span').first().text();
+      var $div = $('span');
+      //if (targetPath.indexOf('4e1f1272-7f05-4391-a401-8abcf675715d') >= 0) {
+      //  console.log('...');
+      //}
+      self.text = '';
+      for(var  i = 0; i< $div.length; i++) {
+        var text = $($div[i]).text();
+        if (text.length > 0 && text.indexOf('201') !== 0) {
+           self.text += text + '\n';
+        }
+      }
+
       var images = $('img');
       self.images = [];
       self.imagesData = [];
