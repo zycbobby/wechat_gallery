@@ -18,11 +18,18 @@ You cannot insert utf-8 character using jsPDF, though obviously it is much bette
 
 Using custom font like [Using Custom Font](https://github.com/bpampuch/pdfmake/wiki/Custom-Fonts---client-side).
 
-But it seems quite hard to make it work...
+You need to get some ttf file from windows/fonts folder. Trust me, it is the fastest way to get ttf folder rather than download them from some where on the internet. It was completely a fault to search anything contains Chinese from the internet.
+
+Then encode them into base64:
+
+```bash
+base64 -w 0 xxx.ttf > somefile.out
+```
+Then copy the file content into my_fonts.js under assets/fonts/
 
 # Experience
 
 I think nodejs is obviously not suitable for some download work. It really make the page slow and cannot accept new connections.
 
 # Problem I solved
-1. Using to manipulate image is ... a bad solution... it is CPU sensitive
+1. Using javascript to manipulate image is ... a bad solution... it is CPU sensitive
