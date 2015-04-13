@@ -76,12 +76,11 @@ angular.module('wechatGalleryClientApp')
             image: imgData.data,
             width: 400
           });
-          //docDefinition.content.push({
-          //   // text : fNote.text
-          //  text : 'abc'
-          //});
-          docDefinition.content.push('中文');
+          docDefinition.content.push({
+            text : fNote.text,
+            fontSize : 15
 
+          });
         });
         $scope.pdfMake.createPdf(docDefinition).download();
       });
