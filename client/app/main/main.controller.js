@@ -15,11 +15,10 @@ angular.module('wechatGalleryClientApp')
     $scope.downloadAll = function() {
 
       var count = 0;
-      var doc = new $scope.jsPDF('landscape');
+
       var descriptionImageMap = {};
 
-      $scope.async.each($scope.notes, function(note, cb) {
-
+      $scope.async.eachLimit($scope.notes, 10, function(note, cb) {
         $http.get('/api/notes/' + note.fileDescriptor).success(function(fNote) {
           descriptionImageMap[fNote.fileDescriptor] = descriptionImageMap[fNote.fileDescriptor] || fNote.descriptionImage;
           fNote.imagesData.forEach(function(imageData) {
@@ -33,10 +32,17 @@ angular.module('wechatGalleryClientApp')
           cb();
         })
       }, function(err) {
+        var i,j,temparray,chunk = 64;
 
-        // need one more time for the last one
-        pdfService.makePdfFromAllImages(doc, $scope.images, descriptionImageMap);
-        doc.save('test.pdf');
+        for (i=0,j=$scope.images.length; i<j; i+=chunk) {
+          temparray = $scope.images.slice(i,i+chunk);
+
+          var doc = new $scope.jsPDF('landscape');
+          pdfService.makePdfFromAllImages(doc, temparray, descriptionImageMap);
+          doc.save( '' + i + '-' + (i+chunk) + '.pdf');
+        }
+
+
         if (err) {
           console.log(err);
         }

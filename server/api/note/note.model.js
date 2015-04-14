@@ -119,7 +119,9 @@ Note.prototype.extractTitleAndImg = function () {
         var ctx = canvas.getContext('2d');
         ctx.font = '30pt simsun';
         ctx.fillText(self.title, paddingLeft, paddingTop);
-        ctx.fillText(self.text.match(/.{1,30}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
+        if (self.text.length > 0 ) {
+          ctx.fillText(self.text.match(/.{1,30}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
+        }
 
         // converting png to jpeg
         lwip.open(canvas.toBuffer(), 'png', function(err, image) {
