@@ -8,7 +8,14 @@
 select * from wiz_document where document_location="/We chat/";
 ``` 
 and export them to csv file
+
 1. Copy ~/.wiznote/your_account/data/notes to some where.
+```bash
+#!/bin/bash
+# sample
+cp -r ~/.wiznote/zuo.yc@qq.com/data/notes/* ./server/wechat/notes/
+```
+
 2. Extract them with file descriptor as the folder name, without brace. This function was included in the nodejs script.
 
 3. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it)
