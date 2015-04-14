@@ -16,16 +16,18 @@ angular.module('wechatGalleryClientApp')
 
       var count = 0;
       var doc = new $scope.jsPDF('landscape');
+      var descriptionImageMap = {};
 
       $scope.async.each($scope.notes, function(note, cb) {
 
         $http.get('/api/notes/' + note.fileDescriptor).success(function(fNote) {
+          descriptionImageMap[fNote.fileDescriptor] = descriptionImageMap[fNote.fileDescriptor] || fNote.descriptionImage;
           fNote.imagesData.forEach(function(imageData) {
             $scope.images.push({
               data : imageData.data,
               title : fNote.title,
               date : fNote.date,
-              text: fNote.text
+              noteId : fNote.fileDescriptor
             });
           });
           cb();
@@ -33,7 +35,7 @@ angular.module('wechatGalleryClientApp')
       }, function(err) {
 
         // need one more time for the last one
-        pdfService.makePdfFromAllImages(doc, $scope.images);
+        pdfService.makePdfFromAllImages(doc, $scope.images, descriptionImageMap);
         doc.save('test.pdf');
         if (err) {
           console.log(err);
@@ -41,20 +43,10 @@ angular.module('wechatGalleryClientApp')
       });
     };
 
-    $scope.downloadAllText = function() {
-
-      if ($scope.images.length === 0) {
-        console.log('you should download images first');
-        return;
-      }
-    };
-
     $scope.downloadPdf = function(note) {
 
       var a4Width = 297;
       var a4Height = 210;
-
-
 
       $scope.pdfMake.fonts = {
         song : {

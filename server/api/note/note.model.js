@@ -12,15 +12,23 @@ var async = require('async');
 var http = require('http');
 var getPixels = require("get-pixels");
 var lwip = require("lwip");
+var Canvas = require('canvas')
+  , Image = Canvas.Image;
 
 function Note(noteGuid, title) {
   this.fileDescriptor = noteGuid;
   this.file = path.join(config.noteBase, '{' + this.fileDescriptor + '}');
   this.date = new Date(title);
+  this.title = title;
 }
 
-var a4Width = 2970;
-var a4Height = 2100;
+var a4Width = 2970/2 ;
+var a4Height = 2100/2 ;
+
+var lineHeight = 80;
+
+var paddingTop = 50;
+var paddingLeft = 50;
 
 Note.prototype.extractZip = function () {
   var zipFile = new zip(this.file);
@@ -49,7 +57,7 @@ Note.prototype.extractTitleAndImg = function () {
       for(var  i = 0; i< $div.length; i++) {
         var text = $($div[i]).text();
         if (text.length > 0 && text.indexOf('201') !== 0) {
-           self.text += text + '\n';
+           self.text += text;
         }
       }
 
@@ -106,7 +114,28 @@ Note.prototype.extractTitleAndImg = function () {
           console.log(err);
           throw err;
         }
-        defer.resolve(self);
+
+        var canvas = new Canvas(a4Width,a4Height);
+        var ctx = canvas.getContext('2d');
+        ctx.font = '30pt simsun';
+        ctx.fillText(self.title, paddingLeft, paddingTop);
+        ctx.fillText(self.text.match(/.{1,30}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
+
+        // converting png to jpeg
+        lwip.open(canvas.toBuffer(), 'png', function(err, image) {
+          lwip.create(image.width(), image.height(), 'white', function(err, canvas){
+            // paste original image on top of the canvas
+            canvas.paste(0, 0, image, function(err, image){
+              // now image has a white background...
+              var batch = image.batch();
+              batch.toBuffer('jpg', function (err, buffer) {
+                self.descriptionImage = 'data:image/jpeg;base64,' + buffer.toString('base64');
+                defer.resolve(self);
+              });
+            });
+          });
+        });
+
       });
 
     }
@@ -375,6 +404,26 @@ Note.prototype.extractTitleAndImgOne = function () {
   });
   return defer.promise;
 };
+
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+  var words = text.split(' ');
+  var line = '';
+
+  for(var n = 0; n < words.length; n++) {
+    var testLine = line + words[n] + ' ';
+    var metrics = context.measureText(testLine);
+    var testWidth = metrics.width;
+    if (testWidth > maxWidth && n > 0) {
+      context.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    }
+    else {
+      line = testLine;
+    }
+  }
+  context.fillText(line, x, y);
+}
 
 
 module.exports = Note;
