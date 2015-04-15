@@ -51,3 +51,12 @@ Then copy the file content into my_fonts.js under assets/fonts/
 2. Use node-canvas, PDF itself can embed fonts, but I need more time.
 
 3. Reduce memory usage, nodeJS it self has GC, but not investigate.
+
+# Problem unsolved
+1. NodeJS memory management, it must be a limitation, how to increase it and is it possible to make some cache?
+
+2. Is nodeJS not suitable for download-oriented site? I mean, can it accept connections when downloading?
+
+3. What is canvas
+
+4. Why dont you try ES6? and reduce the use of promise style programming. The return type change will significantly change your thinking style
