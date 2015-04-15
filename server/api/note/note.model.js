@@ -22,13 +22,13 @@ function Note(noteGuid, title) {
   this.title = title;
 }
 
-var a4Width = 2970/2 ;
-var a4Height = 2100/2 ;
+var a4Width = 2970 ;
+var a4Height = 2100 ;
 
-var lineHeight = 80;
+var lineHeight = 100;
 
-var paddingTop = 50;
-var paddingLeft = 50;
+var paddingTop = 100;
+var paddingLeft = 100;
 
 Note.prototype.extractZip = function () {
   var zipFile = new zip(this.file);
@@ -40,6 +40,11 @@ Note.prototype.extractZip = function () {
 Note.prototype.extractTitleAndImg = function () {
   var defer = Q.defer();
   this.targetPath = path.join(config.tmpBase, this.fileDescriptor);
+
+  if (!fs.existsSync(this.targetPath)) {
+    this.targetPath = this.extractZip();
+  }
+
   var targetPath = this.targetPath;
   var self = this;
   fs.readFile(path.join(targetPath, 'index.html'), function (err, data) {
@@ -120,7 +125,7 @@ Note.prototype.extractTitleAndImg = function () {
         ctx.font = '30pt simsun';
         ctx.fillText(self.title, paddingLeft, paddingTop);
         if (self.text.length > 0 ) {
-          ctx.fillText(self.text.match(/.{1,30}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
+          ctx.fillText(self.text.match(/.{1,60}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
         }
 
         // converting png to jpeg

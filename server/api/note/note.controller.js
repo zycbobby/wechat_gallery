@@ -14,8 +14,10 @@ function loadNotes(csvPath) {
   csv
     .fromPath(csvPath)
     .on("data", function (data) {
-      var note = new Note(data[0], data[1]);
-      note.extractZip();
+      var note = {
+        fileDescriptor : data[0],
+        title : data[1]
+      };
       notes.push(note);
     })
     .on("end", function () {
@@ -59,7 +61,7 @@ exports.show = function (req, res) {
       cachedNotes[note.fileDescriptor] = note;
     });
   }
-  var note = cachedNotes[req.params.id];
+  var note = new Note(cachedNotes[req.params.id].fileDescriptor, cachedNotes[req.params.id].title);
   note.extractTitleAndImg().then(function (fNote) {
     return res.json(200, fNote);
   })
