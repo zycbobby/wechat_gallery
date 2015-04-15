@@ -25,7 +25,7 @@ Check pdfservice for more options.
 
 # About insert Chinese
 
-Use node-canvas to make picture from text. It is html5 canvas function.
+Use [node-canvas](https://github.com/Automattic/node-canvas), which is a Cairo backed Canvas implementation for NodeJS, to make picture from text.
 
 # Experience
 
@@ -45,8 +45,9 @@ base64 -w 0 xxx.ttf > somefile.out
 Then copy the file content into my_fonts.js under assets/fonts/
 
 # Problem I solved
+
 1. Using javascript to manipulate image is ... a bad solution... it is CPU sensitive
 
-# How to make pdf from raw text
+2. Use node-canvas, PDF itself can embed fonts, but I need more time.
 
-I recommend use LibreOffice Writer's function. It is convenient.
+3. Reduce memory usage, nodeJS it self has GC, but not investigate.
