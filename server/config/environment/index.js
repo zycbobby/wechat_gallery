@@ -44,7 +44,9 @@ var all = {
   noteBase : path.join(__dirname, '/../../wechat/notes'),
   tmpBase : path.join(__dirname, '/../../wechat/tmp'),
   csv : path.join(__dirname, '/../../wechat/wiz_wechat.csv'),
-  outBase : path.join(__dirname, '/../../wechat/out')
+  outBase : path.join(__dirname, '/../../wechat/out'),
+
+  fontSize : '50pt'
 };
 
 // Export the config object based on the NODE_ENV

@@ -25,10 +25,10 @@ function Note(noteGuid, title) {
 var a4Width = 2970 ;
 var a4Height = 2100 ;
 
-var lineHeight = 100;
+var lineHeight = 200;
 
-var paddingTop = 100;
-var paddingLeft = 100;
+var paddingTop = 200;
+var paddingLeft = 200;
 
 Note.prototype.extractZip = function () {
   var zipFile = new zip(this.file);
@@ -74,6 +74,7 @@ Note.prototype.extractTitleAndImg = function () {
 
       async.each(self.images, function (image, cb) {
         var imgData = {};
+
         lwip.open(image, function (err, image) {
           var batch = image.batch();
           console.log('width : ' + image.width() + ' height : ' + image.height());
@@ -92,7 +93,7 @@ Note.prototype.extractTitleAndImg = function () {
             console.log('resize : ' + a4Width / newWidth);
             // padding vertically
             var totalVerticalPadding = a4Height - newHeight * a4Width / newWidth;
-            batch = batch.pad(0, totalVerticalPadding / 2, 0, totalVerticalPadding / 2, 'white');
+            batch = batch.pad(0, totalVerticalPadding / 2, 0, totalVerticalPadding / 2, 'black');
           } else {
             // scale vertically
             batch = batch.scale(a4Height / newHeight, a4Height / newHeight);
@@ -100,7 +101,7 @@ Note.prototype.extractTitleAndImg = function () {
 
             // padding horizontally
             var totalHorizontalPadding = a4Width - newWidth * a4Height / newHeight;
-            batch = batch.pad(totalHorizontalPadding / 2, 0, totalHorizontalPadding / 2, 0, 'white');
+            batch = batch.pad(totalHorizontalPadding / 2, 0, totalHorizontalPadding / 2, 0, 'black');
           }
 
           batch.toBuffer('jpg', function (err, buffer) {
@@ -111,6 +112,7 @@ Note.prototype.extractTitleAndImg = function () {
             cb();
           });
         })
+
       }, function (err) {
         if (err) {
           console.log(err);
@@ -119,10 +121,10 @@ Note.prototype.extractTitleAndImg = function () {
 
         var canvas = new Canvas(a4Width,a4Height);
         var ctx = canvas.getContext('2d');
-        ctx.font = '30pt simsun';
+        ctx.font = config.fontSize + ' simsun';
         ctx.fillText(self.title, paddingLeft, paddingTop);
         if (self.text.length > 0 ) {
-          ctx.fillText(self.text.match(/.{1,60}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
+          ctx.fillText(self.text.match(/.{1,40}/g).join('\n'), paddingLeft, paddingTop + lineHeight);
         }
 
         // converting png to jpeg
