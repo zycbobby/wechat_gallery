@@ -47,10 +47,10 @@ angular.module('wechatGalleryClientApp')
     };
 
     this.makePdfOneByOneImages = function (doc, fNote) {
+      doc.addImage(fNote.descriptionImage, 'JPEG', 0 , 0 , a4Width, a4Height);
+      doc.addPage();
       fNote.imagesData.forEach(function(image, idx){
         doc.addImage(image.data, 'JPEG', 0, 0, a4Width, a4Height);
-        doc.addPage();
-        doc.addImage(fNote.descriptionImage, 'JPEG', 0 , 0 , a4Width, a4Height);
         if (idx !== fNote.imagesData.length - 1) {
           doc.addPage();
         }
