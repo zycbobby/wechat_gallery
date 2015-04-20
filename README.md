@@ -1,8 +1,8 @@
 # Introduction
 
- - Make 4 photo in one pdf page then make it printable for post card
- - __OR__ make one day's photo in one pdf and make it printable
- - Using wiznote's function
+- Export wiznote's note to be some printable content
+   - The text content will be the first page
+   - The images will be in the following pages
  
 Check pdfservice for more options.
 
@@ -10,6 +10,7 @@ Check pdfservice for more options.
   ```sql
   select * from wiz_document where document_location="/We chat/";
   ``` 
+ The document_location can be various.
 
 
 2. Copy ~/.wiznote/your_account/data/notes to some where.
@@ -19,9 +20,10 @@ Check pdfservice for more options.
   cp -r ~/.wiznote/zuo.yc@qq.com/data/notes/* ./server/wechat/notes/
   ```
 
-3. Extract them with file descriptor as the folder name, without brace. This function was included in the nodejs script.
-
-4. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it)
+3. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it)
+ ```bash
+ grunt
+ ```
 
 # About insert Chinese
 
