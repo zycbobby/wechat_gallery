@@ -6,11 +6,15 @@
  
 Check pdfservice for more options.
 
+# How to use it
+0. Put your content in wiznote in some specific directory, like 'We chat'.
+
 1. Find the we chat record like following and export them to csv file
   ```sql
   select * from wiz_document where document_location="/We chat/";
   ``` 
- The document_location can be various.
+ The document_location can be various. copy the csv file to the location specified in server/config/index.js. or server/config/environment/development.js.
+ For example, ./server/wechat/notes/wechat.csv
 
 
 2. Copy ~/.wiznote/your_account/data/notes to some where.
@@ -22,7 +26,7 @@ Check pdfservice for more options.
 
 3. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it) Use following command to run the server at the root of the project
  ```bash
- grunt
+ npm install && bower install && grunt
  ```
 
 # About insert Chinese
