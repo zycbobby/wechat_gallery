@@ -20,7 +20,7 @@ Check pdfservice for more options.
   cp -r ~/.wiznote/zuo.yc@qq.com/data/notes/* ./server/wechat/notes/
   ```
 
-3. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it)
+3. Download the file from the front-end. (Because the jspdf need it, the nodejs wrapper doesnot work. You can improve it) Use following command to run the server at the root of the project
  ```bash
  grunt
  ```
