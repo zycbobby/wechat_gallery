@@ -1,3 +1,7 @@
+# Update 20160311
+The best way to crawl Pengyouquan Pictures is to use Droid4x+Anyproxy, get the pictures url and wget them together
+
+
 # Introduction
 
 - Export wiznote's note to be some printable content
