@@ -1,4 +1,5 @@
-# Update 20160311
+# Update 
+2016-3-11
 The best way to crawl Pengyouquan Pictures is to use Droid4x+Anyproxy, get the pictures url and wget them together
 
 
