@@ -47,21 +47,23 @@ Note.prototype.extractTitleAndImg = function () {
 
   var targetPath = this.targetPath;
   var self = this;
-  fs.readFile(path.join(targetPath, 'index.html'), function (err, data) {
+  fs.readFile(path.join(targetPath, 'index.html'), { encoding : 'utf16le'}, function (err, data) {
     if (err) {
       throw err;
     }
     try {
       var $ = cheerio.load(data);
-      var $div = $('span');
+      var $div = $('div');
 
       self.text = '';
-      for(var  i = 0; i< $div.length; i++) {
-        var text = $($div[i]).text();
-        if (text.length > 0 && text.indexOf('201') !== 0) {
-           self.text += text;
-        }
-      }
+      // for(var  i = 0; i< $div.length; i++) {
+      //   var text = $($div[i]).text();
+      //   if (text.length > 0 && text.indexOf('201') !== 0) {
+      //      self.text += text;
+      //   }
+      // }
+
+      self.text += $('body').text().replace(self.title, "");
 
       var images = $('img');
       self.images = [];

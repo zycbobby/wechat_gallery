@@ -19,7 +19,7 @@
     "fast-csv": "^0.6.0",
     "get-pixels": "^3.2.1",
     "lodash": "~2.4.1",
-    "lwip": "0.0.6",
+    "lwip": "^0.0.8",
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",

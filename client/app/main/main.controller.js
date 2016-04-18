@@ -30,4 +30,12 @@ angular.module('wechatGalleryClientApp')
         }
       });
     };
+
+    $scope.downloadPdf = function(note) {
+      $http.get('/api/notes/' + note.fileDescriptor).success(function(fNote) {
+        var doc = new $scope.jsPDF('landscape');
+        pdfService.makePdfOneByOneImages(doc, fNote);
+        doc.save( fNote.date + '.pdf');
+      })
+    };
   });

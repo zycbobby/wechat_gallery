@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/wechatgalleryclient-dev'
+    uri: 'mongodb://localhost:27017/wechatgalleryclient-dev'
   },
 
   seedDB: true
